@@ -7,6 +7,7 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { Bounce, toast } from "react-toastify";
 import { login } from "../services/authentication/api";
+import { toastifyOptions } from "../lib/utils";
 
 const loginFormSchema = z.object({
   username: z.string().min(1, {
@@ -52,15 +53,8 @@ const LoginPage = () => {
 
       if (msg.data.status == "success") {
         store.set("accessToken", msg.data.token);
-        toast.success("Successfully login!", {
-          position: "top-right",
-          autoClose: 3000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          theme: "light",
-          transition: Bounce,
-        });
+        //@ts-ignore
+        toast.success("Successfully login!", toastifyOptions);
         router.push("/dashboard");
       }
     } catch (error: any) {
@@ -78,7 +72,7 @@ const LoginPage = () => {
 
   return (
     <>
-      <div className="relative flex flex-col justify-center h-screen overflow-hidden bg-slate-200">
+      <div data-theme="emerald" className="relative flex flex-col justify-center h-screen overflow-hidden bg-slate-200">
         <div className="w-full p-10 m-auto  rounded-md bg-white shadow-md lg:max-w-lg">
           <h1 className="text-2xl my-4 font-bold text-center text-black">UltimatePOS</h1>
           {credentialsError && (
